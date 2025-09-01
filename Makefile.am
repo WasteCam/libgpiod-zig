@@ -4,7 +4,7 @@
 
 ACLOCAL_AMFLAGS = -I m4
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS = include lib contrib
+SUBDIRS = include lib
 
 EXTRA_DIST = \
 	LICENSES/GPL-2.0-or-later.txt \
@@ -15,48 +15,3 @@ EXTRA_DIST = \
 	LICENSES/GPL-2.0-only.txt \
 	LICENSES/Linux-syscall-note.txt \
 	LICENSES/BSD-3-Clause.txt
-
-if WITH_EXAMPLES
-
-SUBDIRS += examples
-
-endif
-
-if WITH_TOOLS
-
-SUBDIRS += tools
-
-endif
-
-if WITH_TESTS
-
-SUBDIRS += tests
-
-endif
-
-# Build bindings after core tests. When building tests for bindings, we need
-# libgpiosim to be already present.
-SUBDIRS += bindings
-
-if WITH_DBUS
-
-SUBDIRS += dbus
-
-endif
-
-if WITH_MANPAGES
-
-SUBDIRS += man
-
-endif
-
-if WITH_DOCS
-
-SUBDIRS += docs
-
-docs:
-	$(MAKE) -C docs docs
-
-.PHONY: docs
-
-endif

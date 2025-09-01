@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
 <!-- SPDX-FileCopyrightText: 2025 Bartosz Golaszewski <bartosz.golaszewski@linaro.org> -->
+<!-- SPDX-FileCopyrightText: 2025 Aled Lorans -->
+
+libgpiod-zig
+============
+
+A stripped fork of libgpiod, ported to the Zig build system.
+
+Intended for use in WasteCam image_capture.
 
 libgpiod
 ========
