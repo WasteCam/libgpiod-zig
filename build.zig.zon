@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// SPDX-FileCopyrightText: 2025 WasteCam Contributors
+
 .{
     .name = .libgpiod,
     // Forked commit: d0006cc3d57b0e8fe090a1596934340c34e69ab4

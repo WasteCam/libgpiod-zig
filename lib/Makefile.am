@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # SPDX-FileCopyrightText: 2017-2021 Bartosz Golaszewski <bartekgola@gmail.com>
+# SPDX-FileCopyrightText: 2025 WasteCam Contributors
 
 lib_LTLIBRARIES = libgpiod.la
 libgpiod_la_SOURCES = \

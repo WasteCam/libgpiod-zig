@@ -1,8 +1,9 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # SPDX-FileCopyrightText: 2017-2022 Bartosz Golaszewski <brgl@bgdev.pl>
+# SPDX-FileCopyrightText: 2025 WasteCam Contributors
 
 # YES = we need to find a Zig build system equivalent
-# NO = we can ignore it in Zig, but we need to keep it in Automake
+# NO = we have alternatives in Zig, but we need to keep it in Autoconf
 
 # NO (autoconf minimum version)
 AC_PREREQ([2.71])

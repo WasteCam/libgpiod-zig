@@ -1,5 +1,9 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// SPDX-FileCopyrightText: 2025 WasteCam Contributors
+
 const std = @import("std");
 const panic = std.debug.panic;
+const builtin = @import("builtin");
 
 pub fn build(b: *std.Build) void {
     // Build options
@@ -10,7 +14,7 @@ pub fn build(b: *std.Build) void {
     ) orelse .static;
     const target_raspberry_pi_4 = b.option(
         bool,
-        "target_raspberry_pi_4",
+        "target_rpi_4",
         "Target the Raspberry Pi 4 model B",
     ) orelse false;
 
@@ -24,12 +28,9 @@ pub fn build(b: *std.Build) void {
 
     const optimize = b.standardOptimizeOption(.{});
 
-    // Target must be linux with glibc
-    if (target.result.os.tag != .linux) {
-        panic("Target OS must be Linux", .{});
-    }
-    if (!target.result.abi.isGnu()) {
-        panic("Target ABI must be GNU libc", .{});
+    // Require Linux with GNU libc
+    if (target.result.os.tag == .linux and target.result.abi.isGnu()) {} else {
+        panic("Target must be Linux with GNU libc\n", .{});
     }
 
     // Library options
