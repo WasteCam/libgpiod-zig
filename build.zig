@@ -5,18 +5,17 @@ const std = @import("std");
 const panic = std.debug.panic;
 const builtin = @import("builtin");
 
+// If we use a mutable global, we can only validate the target if we're actually building the library
+// This means we can run --help without specifying a valid target
+var is_valid_target: bool = false;
+
 pub fn build(b: *std.Build) void {
     // Build options
-    const linkage = b.option(
-        std.builtin.LinkMode,
-        "linkage",
-        "Library linkage mode",
-    ) orelse .static;
-    const target_raspberry_pi_4 = b.option(
-        bool,
-        "target_rpi_4",
-        "Target the Raspberry Pi 4 model B",
-    ) orelse false;
+    const options = b.addOptions();
+    const linkage = b.option(std.builtin.LinkMode, "linkage", "Library linkage mode") orelse .static;
+    options.addOption(std.builtin.LinkMode, "linkage", linkage);
+    const target_raspberry_pi_4 = b.option(bool, "target_rpi_4", "Target the Raspberry Pi 4 model B") orelse false;
+    options.addOption(bool, "target_raspberry_pi_4", target_raspberry_pi_4);
 
     // Target and optimize options
     const target = if (target_raspberry_pi_4) b.resolveTargetQuery(.{
@@ -29,9 +28,17 @@ pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
 
     // Require Linux with GNU libc
-    if (target.result.os.tag == .linux and target.result.abi.isGnu()) {} else {
-        panic("Target must be Linux with GNU libc\n", .{});
+    if (target.result.os.tag == .linux and target.result.abi.isGnu()) {
+        is_valid_target = true;
     }
+    const target_validate_step = b.allocator.create(std.Build.Step) catch panic("OOM", .{});
+    target_validate_step.* = std.Build.Step.init(.{
+        .id = .custom,
+        .name = "validate-target",
+        .makeFn = validateTarget,
+        .owner = b,
+    });
+    b.getInstallStep().dependOn(target_validate_step);
 
     // Library options
     const lib = b.addLibrary(.{
@@ -73,4 +80,13 @@ pub fn build(b: *std.Build) void {
     // Install step
     lib.installHeadersDirectory(b.path("include/"), "", .{});
     b.installArtifact(lib);
+}
+
+fn validateTarget(step: *std.Build.Step, make_options: std.Build.Step.MakeOptions) !void {
+    _ = step;
+    _ = make_options;
+    // Require Linux with GNU libc
+    if (!is_valid_target) {
+        panic("Target must be Linux with GNU libc\n", .{});
+    }
 }
