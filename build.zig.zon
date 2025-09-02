@@ -1,0 +1,15 @@
+.{
+    .name = .libgpiod,
+    // Forked commit: d0006cc3d57b0e8fe090a1596934340c34e69ab4
+    // Last tagged release: v2.2.2
+    // Current version: v2.3-devel
+    .version = "2.2.0",
+    .minimum_zig_version = "0.15.1",
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "lib",
+        "include",
+    },
+    .fingerprint = 0x16e5e4bda79182cb,
+}

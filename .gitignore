@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # SPDX-FileCopyrightText: 2017-2021 Bartosz Golaszewski <bartekgola@gmail.com>
 
+.DS_Store
+
 *.o
 *.lo
 *.la
@@ -11,6 +13,10 @@ generated-*.h
 *.patch
 *.swp
 tags
+
+# zig files
+.zig-cache
+zig-out
 
 # autotools stuff
 .deps/
